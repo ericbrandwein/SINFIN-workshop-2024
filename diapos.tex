@@ -31,7 +31,7 @@
 \title[Param. algorithms for \text{Thinness} via the cluster module number]{Parameterized algorithms for \textsc{Thinness} via the cluster module number}
 \author{Flavia Bonomo, Eric Brandwein, Ignasi Sau}
 \institute{Group: Graph Theory and Combinatorial Optimization}
-\date{2024}
+\date{March 11th, 2024}
 
 \begin{document}
 
@@ -148,14 +148,14 @@
 \begin{frame}{Kernelization}
     A \emph{kernel} for a parameterized problem is a polynomial-time algorithm that, given an instance $(I,k)$ for the problem, outputs an \emph{equivalent} instance $(I',k')$ such that:
     \begin{itemize}
-        \item $|I'| + k' \leq f(k)$ for some computable function $f$, and
-        \item $(I,k)$ is a \textsc{Yes} instance if and only if $(I',k')$ is a \textsc{Yes} instance.
+        \item $|I'| + k' \leq g(k)$ for some computable function $g$, and
+        \item $(I,k)$ is a \textsc{Yes} instance iff $(I',k')$ is a \textsc{Yes} instance.
     \end{itemize}
 \end{frame}
 
 \begin{frame}{Kernelization}
     \begin{block}{Theorem (\cite{parameterized-algorithms})}
-        A parameterized problem is in FPT if and only if it admits a kernel.
+        A parameterized problem is in FPT iff it admits a kernel.
     \end{block}
 \end{frame}
 
@@ -181,7 +181,7 @@
 
     \vspace{1em}
     \pause
-    Say, at most $f(k)$ vertices for some $k$?
+    Say, at most $g(k)$ vertices for some $k$?
 
     \vspace{1em}
     \pause
@@ -284,7 +284,7 @@
 \end{frame}
 
 \begin{frame}{Neighborhood partition}
-    \begin{block}{Definition (Neighborhood partition)}
+    \begin{block}{Definition (Neighborhood partition, Neighborhood diversity)}
         A partition of the vertices of a graph $G$ is a \emph{neighborhood partition} if every two vertices in the same part have the same neighborhood type. The \emph{neighborhood diversity} $\nd(G)$ of $G$ is the minimum number of parts in a neighborhood partition of $G$.
     \end{block}
     TODO: dibujo de una neighborhood partition
@@ -361,7 +361,12 @@
 
 \begin{frame}{Size lower bound}
     \begin{block}{Theorem}
-        Let $\p$ be a graph parameter such that for every graph $G$, we have $\p(G) \leq \abs{V(G)}$, and such that if $H$ is the disjoint union of two graphs $G_1$ and $G_2$, we have $\p(H) \leq \max\{\p(G_1), \p(G_2)\}$. Then \textsc{Thinness} parameterized by $\p$ has no polynomial kernel assuming $\textsf{NP} \not\subseteq \textsf{coNP} / \textsf{poly}$.
+        Let $\p$ be a graph parameter such that
+        \begin{itemize}
+            \item for every graph $G$, we have $\p(G) \leq \abs{V(G)}$, and
+            \item if $H$ is the disjoint union of two graphs $G_1$ and $G_2$, we have $\p(H) \leq \max\{\p(G_1), \p(G_2)\}$.
+        \end{itemize}
+        Then \textsc{Thinness} parameterized by $\p$ has no polynomial kernel assuming $\textsf{NP} \not\subseteq \textsf{coNP} / \textsf{poly}$.
     \end{block}
 \end{frame}
 
@@ -375,7 +380,7 @@
     \end{itemize}
 \end{frame}
 
-\section{References}
+\section*{References}
 \begin{frame}{References}
     \tiny
     \bibliographystyle{plain}
