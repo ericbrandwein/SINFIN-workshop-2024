@@ -1,0 +1,10 @@
+# LaTeX project files
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.pdf
+
+# LaTeX build output
+out/
