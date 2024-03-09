@@ -1,8 +1,14 @@
 \documentclass{beamer}
 
+\usepackage{graphicx}
 \usepackage{mathtools}
 \usepackage{xifthen}
 \usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary {graphs.standard}
+
+\tikzstyle{vertex}=[draw, circle, fill=black, inner sep=0.4mm]
+
 
 \newcommand{\declarefunction}[2][]{%
     \ifthenelse{\isempty{#1}}{%
@@ -25,6 +31,9 @@
 \declarefunction{p}
 
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
+
+\newcommand{\vimage}[2][]{\vcenter{\hbox{\includegraphics[#1]{#2}}}}
+\newcommand{\varrow}{\vcenter{\hbox{\scalebox{2}{$\rightarrow$}}}}
 
 \usetheme{Warsaw}
 
@@ -81,7 +90,9 @@
 \end{frame}
 
 \begin{frame}{Thinness}
-    TODO: Figure explaining a consistent triple
+    \begin{center}
+        \includegraphics[width=0.4\textwidth]{img/ejemplo_thinness.png}
+    \end{center}
 \end{frame}
 
 \begin{frame}{Definition}
@@ -165,7 +176,28 @@
         If two adjacent vertices have the same neighborhood, removing one of them does not modify the thinness of the graph.
     \end{block}
 
-    TODO: dibujo de dos vértices adyacentes con el mismo vecindario
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}
+            \node[vertex, label=above:{$u$}] (u) at (0,0) {};
+            \node[vertex, label=above:{$v$}, right=of u] (v) {};
+            \node[vertex, label=above:{$w_1$}, below=of u] (w1) {};
+            \node[vertex, label=below:{$w_2$}, right=of w1] (w2) {};
+            \node[vertex, label=above:{$w_3$}, right=of w2] (w3) {};
+            \node[vertex, label=below:{$w_0$}, left=of w1] (w0) {};
+
+            \draw (u) -- (v);
+            \draw (u) -- (w0);
+            \draw (v) -- (w0);
+            \draw (u) -- (w2);
+            \draw (v) -- (w2);
+            \draw (u) -- (w3);
+            \draw (v) -- (w3);
+
+            \draw (w0) -- (w1);
+            \draw (w1) to[out=270, in=270] (w3);
+        \end{tikzpicture}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Reducing thinness instances}
@@ -173,7 +205,32 @@
         If three \textbf{non-adjacent} vertices have the same neighborhood, removing one of them does not modify the thinness of the graph.
     \end{block}
 
-    TODO: dibujo de tres vértices no adyacentes con el mismo vecindario
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}
+            \node[vertex, label=above:{$u$}] (u) at (0,0) {};
+            \node[vertex, label=above:{$v$}, right=of u] (v) {};
+            \node[vertex, label=above:{$w$}, right=of v] (w) {};
+            \node[vertex, label=below:{$w_1$}, below=of u] (w1) {};
+            \node[vertex, label=below:{$w_2$}, right=of w1] (w2) {};
+            \node[vertex, label=below:{$w_3$}, right=of w2] (w3) {};
+            \node[vertex, label=below:{$w_4$}, right=of w3] (w4) {};
+            \node[vertex, label=below:{$w_0$}, left=of w1] (w0) {};
+
+            \draw (u) -- (w0);
+            \draw (v) -- (w0);
+            \draw (w) -- (w0);
+            \draw (u) -- (w2);
+            \draw (v) -- (w2);
+            \draw (w) -- (w2);
+            \draw (u) -- (w3);
+            \draw (v) -- (w3);
+            \draw (w) -- (w3);
+
+            \draw (w0) -- (w1);
+            \draw (w1) to[out=270, in=270] (w3);
+        \end{tikzpicture}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Reducing thinness instances}
@@ -195,7 +252,9 @@
         A \emph{module} of a graph $G$ is a subset $W$ of $V(G)$ such that every vertex outside $W$ is either adjacent to all vertices in $W$ or to none of them.
     \end{block}
 
-    TODO: dibujo de un module
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{img/module.png}
+    \end{center}
 \end{frame}
 
 \subsection{Cluster modules}
@@ -203,7 +262,14 @@
     \begin{block}{Definition (Clique)}
         A \emph{clique} is a subset $C$ of vertices such that every vertex in $W$ is adjacent to all other vertices in $W$.
     \end{block}
-    TODO: dibujo de una clique
+
+    \begin{figure}
+        \centering
+
+        \tikz \graph[nodes={vertex}, empty nodes, edges={-}] { 
+            subgraph K_n [n=5, clockwise]
+        };
+    \end{figure}
 \end{frame}
 
 
@@ -211,8 +277,10 @@
     \begin{block}{Definition (Cluster)}
         A \emph{cluster} is a subset $C$ of vertices that induces a union of cliques.
     \end{block}
-    
-    TODO: dibujo de un cluster
+        
+    \begin{center}
+        \includegraphics[width=1\textwidth]{img/cluster.png}
+    \end{center}
 \end{frame}
 
 \begin{frame}{Cluster modules}
@@ -220,19 +288,30 @@
         A \emph{cluster module} is a subset $C$ of vertices that is a cluster and a module of $G$.
     \end{block}
 
-    TODO: dibujo de un cluster module
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{img/module.png}
+    \end{center}
 \end{frame}
 
 \subsection{Cluster module number}
 \begin{frame}{Cluster module number}
-    \begin{block}{Definition (Cluster module partition)}
-        A \emph{cluster module partition} of a graph $G$ is a partition of the vertices of $G$ into cluster modules.
-    \end{block}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Definition}
+                A \emph{cluster module partition} of a graph $G$ is a partition of the vertices of $G$ into cluster modules.
+            \end{block}
 
-    \begin{block}{Definition (Cluster module number)}
-        The \emph{cluster module number} $\cm(G)$ of a graph $G$ is the minimum size of a cluster module partition of $G$.
-    \end{block}
-    TODO: dibujo de un cluster module partition
+            \begin{block}{Definition}
+                The \emph{cluster module number} $\cm(G)$ of a graph $G$ is the minimum size of a cluster module partition of $G$.
+            \end{block}
+        \end{column}
+
+        \begin{column}{0.5\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{img/cluster_module_partition.png}
+            \end{center}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Cluster module number}
@@ -253,9 +332,24 @@
     \framesubtitle{Proof}
     \begin{enumerate}
         \item Obtain an optimal cluster module partition of $G$.
+    \end{enumerate}
+
+    \begin{center}
+    $\vimage[width=0.35\textwidth]{img/graph_with_cluster_module_partition.png}\ \varrow\ \vimage[width=0.4\textwidth]{img/cluster_module_partition.png}$
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{Cluster module number}
+    \framesubtitle{Proof}
+    \begin{enumerate}
+        \item Obtain an optimal cluster module partition of $G$.
         \item (Lemma 1) Remove all vertices but one of each clique in each part of the cluster module partition.
     \end{enumerate}
-    TODO: dibujo de eliminar los vertices de las cliques
+
+    \begin{center}
+        $\vimage[width=0.4\textwidth]{img/cluster_module_partition.png}\ \varrow\ \vimage[width=0.4\textwidth]{img/cluster_module_partition_lemma_1.png}$
+    \end{center}
 \end{frame}
 
 \begin{frame}{Cluster module number}
@@ -265,13 +359,19 @@
         \item (Lemma 1) Remove all vertices but one of each clique in each part of the cluster module partition.
         \item (Lemma 2) Remove all vertices until only two of each part remain.
     \end{enumerate}
-    TODO: dibujo de eliminar los vertices de las partes
+    
+    \begin{center}
+        $\vimage[width=0.4\textwidth]{img/cluster_module_partition_lemma_1.png}\ \varrow\ \vimage[width=0.4\textwidth]{img/cluster_module_partition_lemma_2.png}$
+    \end{center}
 \end{frame}
 
 
 \begin{frame}{Cluster module number}
     \framesubtitle{Proof}
     The resulting graph is $k$-thin if and only if the original graph is $k$-thin, and it has at most $2 \cdot \cm(G)$ vertices. Thus, this is a \textbf{kernel} of size $2 \cdot \cm(G)$.
+    \begin{center}
+        \includegraphics[width=0.4\textwidth]{img/cluster_module_partition_lemma_2.png}
+    \end{center}
 \end{frame}
 
 
@@ -280,14 +380,38 @@
     \begin{block}{Definition (Neighborhood type)}
         Two vertices $v$ and $w$ have the same \emph{neighborhood type} if $N(v) \setminus \{w\} = N(w) \setminus \{v\}$.
     \end{block}
-    TODO: dibujo de dos vértices con el mismo neighborhood type
+
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}
+            \node[vertex, label=above:{$v$}] (u) at (0,0) {};
+            \node[vertex, label=above:{$w$}, right=of u] (v) {};
+            \node[vertex, label=above:{$w_1$}, below=of u] (w1) {};
+            \node[vertex, label=below:{$w_2$}, right=of w1] (w2) {};
+            \node[vertex, label=above:{$w_3$}, right=of w2] (w3) {};
+            \node[vertex, label=below:{$w_0$}, left=of w1] (w0) {};
+
+            \draw (u) -- (v);
+            \draw (u) -- (w0);
+            \draw (v) -- (w0);
+            \draw (u) -- (w2);
+            \draw (v) -- (w2);
+            \draw (u) -- (w3);
+            \draw (v) -- (w3);
+
+            \draw (w0) -- (w1);
+            \draw (w1) to[out=270, in=270] (w3);
+        \end{tikzpicture}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Neighborhood partition}
     \begin{block}{Definition (Neighborhood partition, Neighborhood diversity)}
         A partition of the vertices of a graph $G$ is a \emph{neighborhood partition} if every two vertices in the same part have the same neighborhood type. The \emph{neighborhood diversity} $\nd(G)$ of $G$ is the minimum number of parts in a neighborhood partition of $G$.
     \end{block}
-    TODO: dibujo de una neighborhood partition
+    \begin{center}
+        \includegraphics[width=0.4\textwidth]{img/neighborhood_partition.png}
+    \end{center}
 \end{frame}
 
 \begin{frame}{Neighborhood diversity}
@@ -295,7 +419,9 @@
         Every part of a neighborhood partition is either a clique or an independent set.
     \end{block}
 
-    TODO: dibujo de la misma neighborhood partition
+    \begin{center}
+        \includegraphics[width=0.4\textwidth]{img/neighborhood_partition.png}
+    \end{center}
 \end{frame}
 
 \begin{frame}{Neighborhood diversity}
@@ -309,17 +435,24 @@
 
 \subsection{Twin-cover}
 \begin{frame}{Twin-cover}
-    \begin{block}{Definition (Twin-cover)}
-        A subset $X$ of vertices of $G$ is a \emph{twin-cover} if for every edge $(u, v)$ of $E(G)$, either
-        \begin{itemize}
-            \item one of $\{u, v\}$ belongs to $X$, or
-            \item $u$ and $v$ are twins, meaning, $N[u] = N[v]$.
-        \end{itemize}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Definition (Twin-cover)}
+                A subset $X$ of vertices of $G$ is a \emph{twin-cover} if for every edge $(u, v)$ of $E(G)$, either
+                \begin{itemize}
+                    \item one of $\{u, v\}$ belongs to $X$, or
+                    \item $u$ and $v$ are twins, meaning, $N[u] = N[v]$.
+                \end{itemize}
 
-        The \emph{twin-cover number} $\tc(G)$ of $G$ is the minimum size of a twin-cover of $G$.
-    \end{block}
-
-    TODO: dibujo de un twin-cover
+                The \emph{twin-cover number} $\tc(G)$ of $G$ is the minimum size of a twin-cover of $G$.
+            \end{block}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{img/twin-cover.png}
+            \end{center}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Twin-cover}
@@ -327,9 +460,11 @@
         $\cm(G) \leq 2^{\tc(G)} + \tc(G)$.
     \end{block}
 
-    \textcolor{blue}{Proof:} We create $\tc(G)$ parts, one for each vertex in a twin-cover, and then partition the remaining vertices by their neighborhoods \textbf{in $X$}.
-
-    TODO: dibujo de la particion?
+    \textcolor{blue}{Proof:} We create $\tc(G)$ parts, one for each vertex in a twin-cover, and then partition the remaining vertices by their \textbf{neighborhoods in $\mathbf{X}$}.
+    
+    \begin{center}
+        \includegraphics[width=0.45\textwidth]{img/twin-cover_cluster_module_partition.png}
+    \end{center}
 \end{frame}
 
 
@@ -344,7 +479,10 @@
 
         The \emph{vertex cover number} $\vc(G)$ of $G$ is the minimum size of a vertex cover of $G$.
     \end{block}
-    TODO: dibujo de un vertex cover?
+    
+    \begin{center}
+        \includegraphics[width=0.45\textwidth]{img/vertex_cover.png}
+    \end{center}
 \end{frame}
 
 \begin{frame}{Vertex cover}
