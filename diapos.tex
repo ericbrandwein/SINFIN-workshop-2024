@@ -39,8 +39,8 @@
 
 \title[Param. algorithms for \text{Thinness} via the cluster module number]{Parameterized algorithms for \textsc{Thinness} via the cluster module number}
 \author{Flavia Bonomo, Eric Brandwein, Ignasi Sau}
-\institute{Group: Graph Theory and Combinatorial Optimization}
-\date{March 11th, 2024}
+%\institute{Group: Graph Theory and Combinatorial Optimization}
+%\date{March 11th, 2024}
 
 \begin{document}
 
@@ -76,23 +76,27 @@
 \section{Thinness}
 \subsection{Definition}
 \begin{frame}{Consistent solution}
-    A \emph{consistent solution using $k$ classes} for a graph $G$ is a pair $(\prec, S)$ where 
-    \begin{itemize}
-        \item $\prec$ is a strict total order on $V(G)$, and 
-        \item $S$ is a partition of $V(G)$ into $k$ classes,
-    \end{itemize}
-    such that, for each triple of vertices $u\prec v \prec w$ of $G$, if
-    \begin{itemize}
-        \item $u$ and $v$ belong to the same class in $S$, and
-        \item $(u,w) \in E(G)$,
-    \end{itemize}
-    then $(v,w) \in E(G)$.
-\end{frame}
-
-\begin{frame}{Thinness}
-    \begin{center}
-        \includegraphics[width=0.4\textwidth]{img/ejemplo_thinness.png}
-    \end{center}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \small
+            A \emph{consistent solution using $k$ classes} for a graph $G$ is a pair $(\prec, S)$ where 
+            \begin{itemize}
+                \item $\prec$ is a strict total order on $V(G)$, and 
+                \item $S$ is a partition of $V(G)$ into $k$ classes,
+            \end{itemize}
+            such that, for each triple of vertices $u\prec v \prec w$ of $G$, if
+            \begin{itemize}
+                \item $u$ and $v$ belong to the same class in $S$, and
+                \item $(u,w) \in E(G)$,
+            \end{itemize}
+            then $(v,w) \in E(G)$.
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{center}
+                \includegraphics[width=0.8\textwidth]{img/ejemplo_thinness.png}
+            \end{center}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Definition}
@@ -114,10 +118,10 @@
     \end{block}
     \pause
     \vspace{1em}
-    \textbf{\textcolor{blue}{Question:}} What are some classes of graphs for which \textsc{Thinness} is \emph{not} NP-complete? 
+    \textbf{\textcolor{blue}{Question:}} What are some classes of graphs for which \textsc{Thinness} has a polynomial-time algorithm? 
     \pause 
     
-    We know for example that trees admit a polynomial-time algorithm for \textsc{Thinness}~\cite{thinness-of-trees}.
+    We know for example that trees admit an $O(n \log n)$ algorithm for \textsc{Thinness}~\cite{thinness-of-trees}.
     \pause
 
     Maybe there is some number we can calculate for a graph $G$ that can tell us how hard it is to solve \textsc{Thinness} for $G$?
